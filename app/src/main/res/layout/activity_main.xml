@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/btn_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="change" />
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <com.example.imgtest.widget.VerificationCodeTextView
+            android:id="@+id/tv_screen_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="1231123"
+            android:textSize="40sp" />
+    </FrameLayout>
+
+    <ImageView
+        android:id="@+id/img1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
