@@ -47,11 +47,11 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
 
 
     @Override
-    void onChildLayout() {
+    protected void onLayoutChildren() {
         mHorizontalNum = 0;
         mVerticalNum = 0;
         Log.d(TAG, "子view开始布局");
-        clearAllView();
+        removeAllView();
         int childSize = getItemCount();
         int tableSize = getItemCount() > mMaxView ? mMaxView : getItemCount();
         Log.d(TAG, "子view数量" + childSize);
@@ -74,7 +74,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                     int heightMesured = getDecoratedMeasuredHeight(view);
                     Log.d(TAG, "子view测量大小" + widthSpace + "*" + heightSpace);
                     layoutDecoratedWithMargins(view, column * widthMesured, row * heightMesured, widthMesured + column * widthMesured, row * heightMesured + heightMesured);
-                    addView(view, i);
+                    addView(view);
                 }
             }
         }
@@ -114,7 +114,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
     }
 
     @Override
-    FlexLayout.LayoutParams generateDefaultLayoutParams() {
+    protected FlexLayout.LayoutParams generateDefaultLayoutParams() {
         return new FlexLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }

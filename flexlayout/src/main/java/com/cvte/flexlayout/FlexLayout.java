@@ -3,6 +3,7 @@ package com.cvte.flexlayout;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -17,6 +18,7 @@ import java.util.List;
  */
 public class FlexLayout extends ViewGroup {
     private static final String TAG = "FlexLayout";
+    private OnViewTouchEventListener mOnViewTouchEventListener;
     private AbstractLayoutManager mLayoutManager;
     private Commander mCommander;
 
@@ -76,7 +78,7 @@ public class FlexLayout extends ViewGroup {
             return;
         } else {
             Log.d(TAG, "父布局未确认，执行子view的测量和布局");
-            mLayoutManager.onChildLayout();
+            mLayoutManager.onLayoutChildren();
             mLayoutManager.setMeasureSpecs(widthMeasureSpec, heightMeasureSpec);
             mLayoutManager.setMeasuredDimensionFromChildren(widthMeasureSpec, heightMeasureSpec);
         }
@@ -109,8 +111,28 @@ public class FlexLayout extends ViewGroup {
         if (mLayoutManager != null) {
             Log.d(TAG, "执行Layout");
             mLayoutManager.setExactMeasureSpecsFrom(this);
-            mLayoutManager.onChildLayout();
+            mLayoutManager.onLayoutChildren();
         }
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        if (mOnViewTouchEventListener != null) {
+            return mOnViewTouchEventListener.onInterceptTouchEvent(ev);
+        }
+        return super.onInterceptTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mOnViewTouchEventListener != null) {
+            return mOnViewTouchEventListener.onTouchEvent(event);
+        }
+        return super.onTouchEvent(event);
+    }
+
+    public void setOnViewTouchEventListener(OnViewTouchEventListener onViewTouchEventListener) {
+        this.mOnViewTouchEventListener = onViewTouchEventListener;
     }
 
     /**
@@ -200,7 +222,7 @@ public class FlexLayout extends ViewGroup {
 
         View getViewForPosition(int position) {
             Commander commander = mFlexLayout.getCommander();
-            View itemView = commander.getViewForPosition(mFlexLayout,position).getItemView();
+            View itemView = commander.getViewForPosition(mFlexLayout, position).getItemView();
             ViewGroup.LayoutParams params = itemView.getLayoutParams();
             LayoutParams lvParams;
             if (params == null) {
@@ -225,12 +247,12 @@ public class FlexLayout extends ViewGroup {
         }
 
 
-        void clearAllView() {
+        void removeAllView() {
             mFlexLayout.removeAllViews();
         }
 
-        void addView(View view, int index) {
-            mFlexLayout.addView(view, index);
+        void addView(View view) {
+            mFlexLayout.addView(view);
         }
 
         /**
@@ -351,14 +373,14 @@ public class FlexLayout extends ViewGroup {
         /**
          * 布局子view
          */
-        abstract void onChildLayout();
+        protected abstract void onLayoutChildren();
 
         /**
          * 获取默认的layoutParams
          *
          * @return
          */
-        abstract LayoutParams generateDefaultLayoutParams();
+        protected abstract LayoutParams generateDefaultLayoutParams();
 
         /**
          * 选择一个当前合适的size
@@ -464,10 +486,10 @@ public class FlexLayout extends ViewGroup {
             init();
         }
 
-        public BaseItemView getViewForPosition(ViewGroup parent,int position) {
+        public BaseItemView getViewForPosition(ViewGroup parent, int position) {
             if (position >= 0 && position < mViewLists.size()) {
                 BaseItemView baseItemView = mViewLists.get(position);
-                baseItemView.onCreateView(parent,position);
+                baseItemView.onCreateView(parent, position);
                 return baseItemView;
             }
             return null;

@@ -30,13 +30,11 @@ public class TestFlexView extends BaseItemView {
         mTvText = view.findViewById(R.id.text);
         mTvText.setText("我是第" + getPosition() + "个数据");
 
-        LogUtils.d("我初始化了");
 
     }
 
     @Override
     protected void onViewCreateActivity(View view, ViewGroup parent) {
-        LogUtils.d("我被刷新了" + getPosition());
         mTvText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
