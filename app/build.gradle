@@ -32,6 +32,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     //导入clog日志打印
     implementation 'com.cvte.maxhub:clog:R.1.1.10'
-    implementation project(path: ':flexlayout')
+    implementation 'com.github.xmtggh:FlexLayout:1.0'
+//    implementation project(path: ':flexlayout')
 //    implementation project(':hodgepodgeview')
 }
