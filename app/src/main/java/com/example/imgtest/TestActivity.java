@@ -16,7 +16,7 @@ public class TestActivity extends AppCompatActivity {
     private FlexLayout mFlexLayout;
     private Button mAdd;
     private Button mRemove;
-    private TestCommander testCommander;
+    private FlexLayout.Commander testCommander;
     private Button mBtnUpdate;
     private DragTouchHelper mDragTouchHelper;
 
@@ -25,26 +25,33 @@ public class TestActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         mFlexLayout = findViewById(R.id.flex_layout);
+        mAdd = findViewById(R.id.add);
+        mRemove = findViewById(R.id.remove);
+
+//        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL));
         mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
-        testCommander = new TestCommander(this);
+        testCommander = new FlexLayout.Commander(this);
+        testCommander.addView(new TestFlexView(TestActivity.this));
+        testCommander.addView(new TestFlexView(TestActivity.this));
+        testCommander.addView(new TestFlexView(TestActivity.this));
+        testCommander.addView(new TestFlexView(TestActivity.this));
         mFlexLayout.setCommander(testCommander);
         mDragTouchHelper = new DragTouchHelper();
         mDragTouchHelper.attachToFlexlayout(mFlexLayout);
-        mAdd = findViewById(R.id.add);
-        mRemove = findViewById(R.id.remove);
+
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TestFlexView testFlexView = new TestFlexView(TestActivity.this);
                 testCommander.addView(testFlexView);
-                testCommander.notifyChange();
+                testCommander.notifyUpdateAllView();
             }
         });
         mRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 testCommander.removeView(0);
-                testCommander.notifyChange();
+                testCommander.notifyUpdateAllView();
             }
         });
         mBtnUpdate = findViewById(R.id.btn_update);

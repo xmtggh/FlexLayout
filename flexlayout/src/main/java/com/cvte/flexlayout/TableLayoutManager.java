@@ -37,6 +37,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
         initLayout(direction, MAX_ITEM);
 
     }
+
     private void initLayout(int direction, int maxView) {
         if (direction != 0 && direction != 1) {
             throw new RuntimeException("初始化方向失败，请填写正确的值");
@@ -51,9 +52,8 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
         mHorizontalNum = 0;
         mVerticalNum = 0;
         Log.d(TAG, "子view开始布局");
-        removeAllView();
         int childSize = getItemCount();
-        int tableSize = getItemCount() > mMaxView ? mMaxView : getItemCount();
+        int tableSize =Math.min(getItemCount(),mMaxView);
         Log.d(TAG, "子view数量" + childSize);
         calculationAllItemNum(tableSize);
         Log.d(TAG, "计算的长为" + mHorizontalNum + "计算的宽为" + mVerticalNum);
@@ -65,7 +65,8 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                 int row = (int) Math.floor(i / mHorizontalNum);
                 //第几列
                 int column = i - row * mHorizontalNum;
-                View view = getViewForPosition(i);
+                BaseItemView itemView = getViewForPosition(i);
+                View view = itemView.getItemView();
                 int widthUsed = getWidth() - widthSpace;
                 int heightUsed = getHeight() - heightSpace;
                 if (i < mMaxView) {
@@ -74,7 +75,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                     int heightMesured = getDecoratedMeasuredHeight(view);
                     Log.d(TAG, "子view测量大小" + widthSpace + "*" + heightSpace);
                     layoutDecoratedWithMargins(view, column * widthMesured, row * heightMesured, widthMesured + column * widthMesured, row * heightMesured + heightMesured);
-                    addView(view);
+                    addView(itemView);
                 }
             }
         }
@@ -82,6 +83,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
 
     /**
      * 计算当前界面展示最大item数目
+     *
      * @param num
      */
 

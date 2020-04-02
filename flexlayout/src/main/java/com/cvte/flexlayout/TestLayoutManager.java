@@ -21,14 +21,15 @@ public class TestLayoutManager extends FlexLayout.AbstractLayoutManager {
         int heightAdds = 0;
         if (childSize > 0) {
             for (int i = 0; i < childSize; i++) {
-                View view = getViewForPosition(i);
+                BaseItemView itemView = getViewForPosition(i);
+                View view = itemView.getItemView();
                 measureChildWithMargins(view, 0, 0);
                 int widthSpace = getDecoratedMeasuredWidth(view);
                 int heightSpace = getDecoratedMeasuredHeight(view);
                 Log.d(TAG,"子view测量大小"+ widthSpace+"*"+heightSpace);
                 layoutDecoratedWithMargins(view,0, heightAdds, widthSpace, heightAdds + heightSpace);
                 heightAdds = heightSpace + heightAdds;
-                addView(view);
+                addView(itemView);
             }
         }
     }

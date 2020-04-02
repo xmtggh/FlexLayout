@@ -220,17 +220,18 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-        View getViewForPosition(int position) {
+        BaseItemView getViewForPosition(int position) {
             Commander commander = mFlexLayout.getCommander();
-            View itemView = commander.getViewForPosition(mFlexLayout, position).getItemView();
-            ViewGroup.LayoutParams params = itemView.getLayoutParams();
+            BaseItemView itemView = commander.getViewForPosition(mFlexLayout, position);
+            View internalView = itemView.getItemView();
+            ViewGroup.LayoutParams params = internalView.getLayoutParams();
             LayoutParams lvParams;
             if (params == null) {
                 lvParams = (LayoutParams) generateDefaultLayoutParams();
-                itemView.setLayoutParams(lvParams);
+                internalView.setLayoutParams(lvParams);
             } else if (!mFlexLayout.checkLayoutParams(params)) {
                 lvParams = (LayoutParams) mFlexLayout.generateLayoutParams(params);
-                itemView.setLayoutParams(lvParams);
+                internalView.setLayoutParams(lvParams);
             }
             return itemView;
         }
@@ -251,8 +252,11 @@ public class FlexLayout extends ViewGroup {
             mFlexLayout.removeAllViews();
         }
 
-        void addView(View view) {
-            mFlexLayout.addView(view);
+        void addView(BaseItemView view) {
+            if (!view.isAddView()){
+                mFlexLayout.addView(view.getItemView());
+                view.setAddView(true);
+            }
         }
 
         /**
@@ -473,7 +477,7 @@ public class FlexLayout extends ViewGroup {
 
     }
 
-    public abstract static class Commander {
+    public static class Commander {
         private static final String TAG = "Commander";
         private List<BaseItemView> mViewLists;
         protected FlexLayout mFlexLayout;
@@ -483,7 +487,6 @@ public class FlexLayout extends ViewGroup {
             mContext = context;
             mViewLists = new ArrayList<>();
             Log.d(TAG, "初始化Commander");
-            init();
         }
 
         public BaseItemView getViewForPosition(ViewGroup parent, int position) {
@@ -508,7 +511,7 @@ public class FlexLayout extends ViewGroup {
             if (lists != null) {
                 mViewLists.addAll(lists);
             }
-            notifyChange();
+            notifyUpdateAllView();
         }
 
         public void addView(BaseItemView baseItemView) {
@@ -521,16 +524,20 @@ public class FlexLayout extends ViewGroup {
         public void removeView(BaseItemView baseItemView) {
             if (baseItemView != null) {
                 mViewLists.remove(baseItemView);
+                mFlexLayout.removeView(baseItemView.getItemView());
             }
         }
 
         public void removeView(int index) {
             if (index >= 0 && index < mViewLists.size()) {
-                mViewLists.remove(index);
+                BaseItemView itemView = mViewLists.get(index);
+                itemView.removeView();
+                mFlexLayout.removeView(itemView.getItemView());
+                mViewLists.remove(itemView);
             }
         }
 
-        public void notifyChange() {
+        public void notifyUpdateAllView() {
             mFlexLayout.requestLayout();
         }
 
@@ -548,6 +555,10 @@ public class FlexLayout extends ViewGroup {
         }
 
         public void clearAllView() {
+            for (BaseItemView itemView : mViewLists) {
+                itemView.removeView();
+                mFlexLayout.removeView(itemView.getItemView());
+            }
             mViewLists.clear();
         }
 
@@ -555,6 +566,5 @@ public class FlexLayout extends ViewGroup {
             return mViewLists.size();
         }
 
-        protected abstract void init();
     }
 }

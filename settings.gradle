@@ -1,2 +1,1 @@
-include ':app', ':flexlayout', ':library'
-rootProject.name='ImgTest'
+include ':app', ':flexlayout'

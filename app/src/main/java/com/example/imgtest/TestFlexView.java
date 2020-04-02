@@ -1,6 +1,8 @@
 package com.example.imgtest;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -8,8 +10,12 @@ import android.widget.Toast;
 
 import com.cvte.flexlayout.BaseItemView;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 public class TestFlexView extends BaseItemView {
     private TextView mTvText;
+    int count = 0;
 
     public TestFlexView(Context context) {
         super(context);
@@ -28,9 +34,17 @@ public class TestFlexView extends BaseItemView {
     @Override
     protected void onCreateView(View view, ViewGroup parent) {
         mTvText = view.findViewById(R.id.text);
-        mTvText.setText("我是第" + getPosition() + "个数据");
-
-
+        Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvText.setText("我是第" + count++ + "个数据");
+                    }
+                });
+            }
+        },1000*getPosition(),100, TimeUnit.MILLISECONDS);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.cvte.flexlayout;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -9,13 +11,16 @@ import android.view.ViewGroup;
  * 持有FlexLayout使用的基类Viewholder
  */
 public abstract class BaseItemView {
+    private static final String TAG = "BaseItemView";
     private static final int NO_POSITION = -1;
     private static final int INVALID_TYPE = -1;
     private View itemView;
-    int mPosition = NO_POSITION;
-    int mItemViewType = INVALID_TYPE;
+    private int mPosition = NO_POSITION;
+    private int mItemViewType = INVALID_TYPE;
     private Context mContext;
     private ViewGroup mParents;
+    private boolean isAddView = false;
+    private boolean isDelete = false;
 
     public BaseItemView(Context context) {
         this.mContext = context;
@@ -31,6 +36,7 @@ public abstract class BaseItemView {
         }
         onViewCreateActivity(itemView, parent);
     }
+
 
     public void notifyView() {
         onViewCreateActivity(itemView, mParents);
@@ -66,6 +72,24 @@ public abstract class BaseItemView {
     public int getPosition() {
         return mPosition;
     }
+
+    public boolean isAddView() {
+        return isAddView;
+    }
+
+    public void setAddView(boolean addView) {
+        isAddView = addView;
+    }
+
+    public void removeView(){
+        isDelete = true;
+    }
+
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+
 
     /**
      * 获取layout
