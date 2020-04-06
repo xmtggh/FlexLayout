@@ -1,6 +1,8 @@
 package com.cvte.flexlayout;
 
 import android.content.Context;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -233,6 +235,8 @@ public class FlexLayout extends ViewGroup {
                 lvParams = (LayoutParams) mFlexLayout.generateLayoutParams(params);
                 internalView.setLayoutParams(lvParams);
             }
+            TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
+
             return itemView;
         }
 
@@ -253,7 +257,7 @@ public class FlexLayout extends ViewGroup {
         }
 
         void addView(BaseItemView view) {
-            if (!view.isAddView()){
+            if (!view.isAddView()) {
                 mFlexLayout.addView(view.getItemView());
                 view.setAddView(true);
             }
@@ -480,8 +484,8 @@ public class FlexLayout extends ViewGroup {
     public static class Commander {
         private static final String TAG = "Commander";
         private List<BaseItemView> mViewLists;
-        protected FlexLayout mFlexLayout;
-        protected Context mContext;
+        private FlexLayout mFlexLayout;
+        private Context mContext;
 
         public Commander(Context context) {
             mContext = context;
@@ -489,7 +493,7 @@ public class FlexLayout extends ViewGroup {
             Log.d(TAG, "初始化Commander");
         }
 
-        public BaseItemView getViewForPosition(ViewGroup parent, int position) {
+        BaseItemView getViewForPosition(ViewGroup parent, int position) {
             if (position >= 0 && position < mViewLists.size()) {
                 BaseItemView baseItemView = mViewLists.get(position);
                 baseItemView.onCreateView(parent, position);
@@ -499,7 +503,7 @@ public class FlexLayout extends ViewGroup {
         }
 
 
-        public void setFlexLayout(FlexLayout flexLayout) {
+        void setFlexLayout(FlexLayout flexLayout) {
             if (flexLayout == null) {
                 throw new RuntimeException("flexLayout is null");
             }
@@ -519,6 +523,7 @@ public class FlexLayout extends ViewGroup {
             if (baseItemView != null) {
                 mViewLists.add(baseItemView);
             }
+            notifyUpdateAllView();
         }
 
         public void removeView(BaseItemView baseItemView) {
@@ -526,6 +531,7 @@ public class FlexLayout extends ViewGroup {
                 mViewLists.remove(baseItemView);
                 mFlexLayout.removeView(baseItemView.getItemView());
             }
+            notifyUpdateAllView();
         }
 
         public void removeView(int index) {
@@ -535,23 +541,26 @@ public class FlexLayout extends ViewGroup {
                 mFlexLayout.removeView(itemView.getItemView());
                 mViewLists.remove(itemView);
             }
+            notifyUpdateAllView();
         }
+
 
         public void notifyUpdateAllView() {
             mFlexLayout.requestLayout();
         }
 
-        public void notifyItemAdd(BaseItemView baseItemView) {
-            if (baseItemView != null) {
-                mViewLists.add(baseItemView);
-            }
-            mFlexLayout.requestLayout();
-        }
 
         public void notifyItemChange(int pos) {
             if (mViewLists.get(pos) != null) {
                 mViewLists.get(pos).notifyView();
             }
+        }
+
+        public int getViewSize() {
+            if (mViewLists != null) {
+                return mViewLists.size();
+            }
+            return 0;
         }
 
         public void clearAllView() {

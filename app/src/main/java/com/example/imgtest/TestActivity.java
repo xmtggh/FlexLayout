@@ -1,6 +1,11 @@
 package com.example.imgtest;
 
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.widget.Button;
 
@@ -8,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.cvte.flexlayout.ArbitrarilyLayoutManager;
+import com.cvte.flexlayout.BaseItemView;
 import com.cvte.flexlayout.DragTouchHelper;
 import com.cvte.flexlayout.FlexLayout;
 import com.cvte.flexlayout.TableLayoutManager;
@@ -28,30 +34,28 @@ public class TestActivity extends AppCompatActivity {
         mAdd = findViewById(R.id.add);
         mRemove = findViewById(R.id.remove);
 
-//        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL));
-        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
+        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.VERTICAL));
+//        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
         testCommander = new FlexLayout.Commander(this);
         testCommander.addView(new TestFlexView(TestActivity.this));
         testCommander.addView(new TestFlexView(TestActivity.this));
         testCommander.addView(new TestFlexView(TestActivity.this));
         testCommander.addView(new TestFlexView(TestActivity.this));
         mFlexLayout.setCommander(testCommander);
-        mDragTouchHelper = new DragTouchHelper();
-        mDragTouchHelper.attachToFlexlayout(mFlexLayout);
+//        mDragTouchHelper = new DragTouchHelper();
+//        mDragTouchHelper.attachToFlexlayout(mFlexLayout);
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 TestFlexView testFlexView = new TestFlexView(TestActivity.this);
                 testCommander.addView(testFlexView);
-                testCommander.notifyUpdateAllView();
             }
         });
         mRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testCommander.removeView(0);
-                testCommander.notifyUpdateAllView();
+                testCommander.removeView(testCommander.getViewSize() - 1);
             }
         });
         mBtnUpdate = findViewById(R.id.btn_update);
@@ -61,5 +65,14 @@ public class TestActivity extends AppCompatActivity {
                 testCommander.notifyItemChange(0);
             }
         });
+/
+        TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
+    }
+
+
+    public BaseItemView getNewBaseView() {
+        BaseItemView itemView = new TestFlexView(TestActivity.this);
+
+        return itemView;
     }
 }
