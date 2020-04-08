@@ -178,7 +178,7 @@ public class FlexLayout extends ViewGroup {
         mCommander = commander;
 
         if (commander != null) {
-            commander.setFlexLayout(this);
+            commander.setFlexLayout(getContext(), this);
         }
         requestLayout();
     }
@@ -487,8 +487,7 @@ public class FlexLayout extends ViewGroup {
         private FlexLayout mFlexLayout;
         private Context mContext;
 
-        public Commander(Context context) {
-            mContext = context;
+        public Commander() {
             mViewLists = new ArrayList<>();
             Log.d(TAG, "初始化Commander");
         }
@@ -503,11 +502,12 @@ public class FlexLayout extends ViewGroup {
         }
 
 
-        void setFlexLayout(FlexLayout flexLayout) {
+        void setFlexLayout(Context context, FlexLayout flexLayout) {
             if (flexLayout == null) {
                 throw new RuntimeException("flexLayout is null");
             }
             mFlexLayout = flexLayout;
+            mContext = context;
             Log.d(TAG, "Commander 绑定FlexLayout");
         }
 
@@ -524,11 +524,11 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-        public void addView(Context context,View view){
-            if (view == null){
+        public void addView(View view) {
+            if (view == null) {
                 throw new RuntimeException("view is null");
-            }else {
-                DefaultItemView itemView = new DefaultItemView(context,view);
+            } else {
+                DefaultItemView itemView = new DefaultItemView(mContext, view);
                 mViewLists.add(itemView);
             }
         }
