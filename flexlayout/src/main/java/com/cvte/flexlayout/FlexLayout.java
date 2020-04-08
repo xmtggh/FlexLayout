@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -546,6 +547,22 @@ public class FlexLayout extends ViewGroup {
                 itemView.removeView();
                 mFlexLayout.removeView(itemView.getItemView());
                 mViewLists.remove(itemView);
+            }
+        }
+
+        public void removeView(View view) {
+            if (mViewLists.size() > 0) {
+                Iterator iterator = mViewLists.iterator();
+                while (iterator.hasNext()){
+                    BaseItemView itemView = (BaseItemView) iterator.next();
+                    if (itemView.getItemView() == view){
+                        mViewLists.remove(itemView);
+                        mFlexLayout.removeView(itemView.getItemView());
+                        break;
+                    }
+                }
+            }else {
+                throw new RuntimeException("view list size < 1");
             }
         }
 

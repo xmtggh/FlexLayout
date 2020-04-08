@@ -41,12 +41,10 @@ public class TestActivity extends AppCompatActivity {
         mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL));
 //        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
         testCommander = new FlexLayout.Commander();
-        FlexLayout.LayoutParams params = new FlexLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
-        ImageView imageView = new ImageView(this);
+        final ImageView imageView = new ImageView(this);
         imageView.setBackgroundColor(Color.YELLOW);
-        imageView.setLayoutParams(params);
         imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_island_svg));
-        testCommander.addView( imageView);
+        testCommander.addView(imageView);
         testCommander.addView(new TestFlexView(TestActivity.this));
         testCommander.addView(new TestFlexView(TestActivity.this));
         testCommander.addView(new TestFlexView(TestActivity.this));
@@ -65,7 +63,7 @@ public class TestActivity extends AppCompatActivity {
         mRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testCommander.removeView(testCommander.getViewSize() - 1);
+                testCommander.removeView(imageView);
                 testCommander.notifyUpdateAllView();
 
             }
