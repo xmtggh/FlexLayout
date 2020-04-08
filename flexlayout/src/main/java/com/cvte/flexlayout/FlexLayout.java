@@ -515,7 +515,6 @@ public class FlexLayout extends ViewGroup {
             if (lists != null) {
                 mViewLists.addAll(lists);
             }
-            notifyUpdateAllView();
         }
 
         public void addView(BaseItemView baseItemView) {
@@ -523,7 +522,15 @@ public class FlexLayout extends ViewGroup {
             if (baseItemView != null) {
                 mViewLists.add(baseItemView);
             }
-            notifyUpdateAllView();
+        }
+
+        public void addView(Context context,View view){
+            if (view == null){
+                throw new RuntimeException("view is null");
+            }else {
+                DefaultItemView itemView = new DefaultItemView(context,view);
+                mViewLists.add(itemView);
+            }
         }
 
         public void removeView(BaseItemView baseItemView) {
@@ -531,7 +538,6 @@ public class FlexLayout extends ViewGroup {
                 mViewLists.remove(baseItemView);
                 mFlexLayout.removeView(baseItemView.getItemView());
             }
-            notifyUpdateAllView();
         }
 
         public void removeView(int index) {
@@ -541,7 +547,6 @@ public class FlexLayout extends ViewGroup {
                 mFlexLayout.removeView(itemView.getItemView());
                 mViewLists.remove(itemView);
             }
-            notifyUpdateAllView();
         }
 
 

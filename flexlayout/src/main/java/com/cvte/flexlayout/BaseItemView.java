@@ -28,79 +28,38 @@ public abstract class BaseItemView {
     private ViewGroup mParents;
     private boolean isAddView = false;
     private boolean isDelete = false;
-    private AnimatorSet animatorSet;
+    private boolean initFlag = false;
 
 
     public BaseItemView(Context context) {
         this.mContext = context;
     }
 
+    public BaseItemView(Context context, View view) {
+        this.mContext = context;
+        this.itemView = view;
+    }
+
     public void onCreateView(ViewGroup parent, int position) {
         mItemViewType = setItemViewType();
         mPosition = position;
-        if (itemView == null) {
-            itemView = LayoutInflater.from(mContext).inflate(getItemLayout(), parent, false);
-            initAnimator();
-            setonLayoutChangeListener(itemView);
-            onCreateView(itemView, parent);
-            mParents = parent;
+        if (!initFlag) {
+            if (itemView == null) {
+                itemView = LayoutInflater.from(mContext).inflate(getItemLayout(), parent, false);
+                onCreateView(itemView, parent);
+                mParents = parent;
+            } else {
+                onCreateView(itemView, parent);
+                mParents = parent;
+            }
+            initFlag = true;
         }
         onViewCreateActivity(itemView, parent);
     }
 
-    private void initAnimator() {
-        animatorSet = new AnimatorSet();
-        animatorSet.setDuration(500);
-        animatorSet.setInterpolator(new LinearInterpolator());
-    }
-
-    private void setonLayoutChangeListener(View itemView) {
-        itemView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            @Override
-            public void onLayoutChange(View currentView, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (oldLeft == 0 && oldRight == 0 && oldTop == 0 && oldBottom == 0) {
-                    Log.d(TAG, "new View");
-                    return;
-                }
-//                float xNewLenght = right - left;
-//                float yNewLenght = bottom - top;
-//                float xOldLenght = oldRight - oldLeft;
-//                float yOldLenght = oldBottom - oldTop;
-//
-//                ObjectAnimator xAnim;
-//                ObjectAnimator yAnim;
-//
-//                if (xNewLenght > xOldLenght) {
-//                    xAnim = ObjectAnimator.ofFloat(currentView, View.SCALE_X, 1f, xOldLenght / xNewLenght);
-//                } else {
-//                    xAnim = ObjectAnimator.ofFloat(currentView, View.SCALE_X, xOldLenght / xNewLenght, 1f);
-//                }
-//
-//                if (yNewLenght > yOldLenght) {
-//                    yAnim = ObjectAnimator.ofFloat(currentView, View.SCALE_Y, 1f, yOldLenght / yNewLenght);
-//                } else {
-//                    yAnim = ObjectAnimator.ofFloat(currentView, View.SCALE_Y, yOldLenght / yNewLenght, 1f);
-//                }
-//                animatorSet.play(xAnim)
-//                        .with(yAnim);
-//                animatorSet.start();
-
-                Log.d(TAG, "onLayoutChange " + String.format("view change(%s,%s,%s,%s,%s,%s,%s,%s)", left, right, top, bottom, oldLeft, oldRight, oldTop, oldBottom));
-            }
-        });
-    }
-
-
     public void notifyView() {
         onViewCreateActivity(itemView, mParents);
     }
-
-    /**
-     * 设置ItemType
-     *
-     * @return
-     */
-    protected abstract int setItemViewType();
 
     /**
      * 返回当前的itemview
@@ -112,6 +71,7 @@ public abstract class BaseItemView {
     }
 
     /**
+     * 留坑做缓存使用
      * @return The view type of this BaseItemView.
      */
     final int getItemViewType() {
@@ -161,4 +121,11 @@ public abstract class BaseItemView {
      * 主逻辑
      */
     protected abstract void onViewCreateActivity(View view, ViewGroup parent);
+    /**
+     * 设置ItemType
+     *
+     * @return
+     */
+    protected abstract int setItemViewType();
+
 }

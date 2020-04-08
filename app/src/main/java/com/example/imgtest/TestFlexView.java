@@ -1,6 +1,7 @@
 package com.example.imgtest;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class TestFlexView extends BaseItemView {
     private TextView mTvText;
     int count = 0;
+    int[] color = new int[]{Color.YELLOW,Color.BLUE,Color.BLACK,Color.GREEN};
 
     public TestFlexView(Context context) {
         super(context);
@@ -34,6 +36,7 @@ public class TestFlexView extends BaseItemView {
     @Override
     protected void onCreateView(View view, ViewGroup parent) {
         mTvText = view.findViewById(R.id.text);
+        mTvText.setBackgroundColor(color[1]);
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
