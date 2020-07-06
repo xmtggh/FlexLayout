@@ -23,7 +23,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="update0"/>
-
+        <Button
+            android:id="@+id/btn_replace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="replace"/>
+        <Button
+            android:id="@+id/btn_remove_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="remove all"/>
     </LinearLayout>
 
 

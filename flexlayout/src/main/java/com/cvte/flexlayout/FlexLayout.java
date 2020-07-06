@@ -550,19 +550,42 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
+        public void replaceView(View view) {
+            if (mViewLists.size() > 0) {
+                mViewLists.clear();
+                mFlexLayout.removeAllViews();
+            }
+            addView(view);
+        }
+
+        public void replaceView(BaseItemView view) {
+            if (mViewLists.size() > 0) {
+                mViewLists.clear();
+                mFlexLayout.removeAllViews();
+            }
+            addView(view);
+        }
+
         public void removeView(View view) {
             if (mViewLists.size() > 0) {
                 Iterator iterator = mViewLists.iterator();
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     BaseItemView itemView = (BaseItemView) iterator.next();
-                    if (itemView.getItemView() == view){
+                    if (itemView.getItemView() == view) {
                         mViewLists.remove(itemView);
                         mFlexLayout.removeView(itemView.getItemView());
                         break;
                     }
                 }
-            }else {
+            } else {
                 throw new RuntimeException("view list size < 1");
+            }
+        }
+
+        public void removeAllView() {
+            if (mViewLists.size() > 0) {
+                mViewLists.clear();
+                mFlexLayout.removeAllViews();
             }
         }
 
