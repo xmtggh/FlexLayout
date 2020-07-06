@@ -582,6 +582,23 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
+        public boolean isViewShow(View view){
+            if (mViewLists.size() > 0) {
+                Iterator iterator = mViewLists.iterator();
+                while (iterator.hasNext()) {
+                    BaseItemView itemView = (BaseItemView) iterator.next();
+                    if (itemView.getItemView() == view) {
+                        mViewLists.remove(itemView);
+                        mFlexLayout.removeView(itemView.getItemView());
+                        return true;
+                    }
+                }
+            } else {
+                throw new RuntimeException("view list size < 1");
+            }
+            return false;
+        }
+
         public void removeAllView() {
             if (mViewLists.size() > 0) {
                 mViewLists.clear();
@@ -589,11 +606,9 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-
         public void notifyUpdateAllView() {
             mFlexLayout.requestLayout();
         }
-
 
         public void notifyItemChange(int pos) {
             if (mViewLists.get(pos) != null) {
