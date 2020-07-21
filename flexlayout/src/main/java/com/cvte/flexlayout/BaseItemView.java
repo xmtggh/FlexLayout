@@ -29,6 +29,7 @@ public abstract class BaseItemView {
     private boolean isAddView = false;
     private boolean isDelete = false;
     private boolean initFlag = false;
+    private Object tag;
 
 
     public BaseItemView(Context context) {
@@ -102,6 +103,13 @@ public abstract class BaseItemView {
         return isDelete;
     }
 
+    public Object getTag() {
+        return tag;
+    }
+
+    public void setTag(Object tag) {
+        this.tag = tag;
+    }
 
     /**
      * 获取layout

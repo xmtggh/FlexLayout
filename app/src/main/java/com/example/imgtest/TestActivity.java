@@ -2,8 +2,10 @@ package com.example.imgtest;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.FileUtils;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -15,6 +17,10 @@ import com.cvte.flexlayout.BaseItemView;
 import com.cvte.flexlayout.DragTouchHelper;
 import com.cvte.flexlayout.FlexLayout;
 import com.cvte.flexlayout.TableLayoutManager;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TestActivity extends AppCompatActivity {
     private FlexLayout mFlexLayout;
@@ -77,7 +83,16 @@ public class TestActivity extends AppCompatActivity {
         mBtnRemoveAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testCommander.removeAllView();
+                Log.d("apk","apk version name" + BuildConfig.VERSION_NAME);
+                String filePath = getDeletePath();
+                List<String> filePaths = getFilesAllName(filePath);
+                String apkPath = "";
+                for (String path : filePaths) {
+                    if (path.contains(BuildConfig.VERSION_NAME)) {
+                        apkPath = path;
+                    }
+                }
+//                testCommander.removeAllView();
             }
         });
 
@@ -90,6 +105,31 @@ public class TestActivity extends AppCompatActivity {
         });
         TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
 
+    }
+
+    /**
+     * 获取所有文件名称
+     * @param path
+     * @return
+     */
+    public static List<String> getFilesAllName(String path) {
+        File file=new File(path);
+        File[] files=file.listFiles();
+        if (files == null){Log.e("error","空目录");return null;}
+        List<String> s = new ArrayList<>();
+        for(int i =0;i<files.length;i++){
+            s.add(files[i].getAbsolutePath());
+        }
+        return s;
+    }
+
+    private String getDeletePath() {
+        File file = getExternalFilesDir("");
+        if (file != null) {
+            return file.getAbsolutePath() + File.separator;
+        } else {
+            return getCacheDir().getAbsolutePath() + File.separator;
+        }
     }
 
 

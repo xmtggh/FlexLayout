@@ -223,7 +223,7 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-        BaseItemView getViewForPosition(int position) {
+        protected BaseItemView getViewForPosition(int position) {
             Commander commander = mFlexLayout.getCommander();
             BaseItemView itemView = commander.getViewForPosition(mFlexLayout, position);
             View internalView = itemView.getItemView();
@@ -241,7 +241,7 @@ public class FlexLayout extends ViewGroup {
             return itemView;
         }
 
-        int getItemCount() {
+        protected int getItemCount() {
             if (mFlexLayout == null) {
                 return 0;
             }
@@ -253,11 +253,11 @@ public class FlexLayout extends ViewGroup {
         }
 
 
-        void removeAllView() {
+        protected void removeAllView() {
             mFlexLayout.removeAllViews();
         }
 
-        void addView(BaseItemView view) {
+        protected void addView(BaseItemView view) {
             if (!view.isAddView()) {
                 mFlexLayout.addView(view.getItemView());
                 view.setAddView(true);
@@ -271,7 +271,7 @@ public class FlexLayout extends ViewGroup {
          * @param widthUsed
          * @param heightUsed
          */
-        void measureChildWithMargins(@NonNull View child, int widthUsed, int heightUsed) {
+        protected void measureChildWithMargins(@NonNull View child, int widthUsed, int heightUsed) {
             final MarginLayoutParams lp = (MarginLayoutParams) child.getLayoutParams();
             final int widthSpec = getChildMeasureSpec(getWidth(), getWidthMode(),
                     getPaddingLeft() + getPaddingRight() + lp.leftMargin + lp.rightMargin
@@ -327,19 +327,19 @@ public class FlexLayout extends ViewGroup {
         }
 
 
-        int getDecoratedMeasuredWidth(@NonNull View child) {
+        protected int getDecoratedMeasuredWidth(@NonNull View child) {
             final LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
             return child.getMeasuredWidth() + layoutParams.leftMargin + layoutParams.rightMargin;
         }
 
 
-        int getDecoratedMeasuredHeight(@NonNull View child) {
+        protected int getDecoratedMeasuredHeight(@NonNull View child) {
             final LayoutParams layoutParams = (LayoutParams) child.getLayoutParams();
             return child.getMeasuredHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
         }
 
-        void layoutDecoratedWithMargins(@NonNull View child, int left, int top, int right,
-                                        int bottom) {
+        protected void layoutDecoratedWithMargins(@NonNull View child, int left, int top, int right,
+                                                  int bottom) {
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
             child.layout(left + lp.leftMargin,
                     top + lp.topMargin,
@@ -421,18 +421,17 @@ public class FlexLayout extends ViewGroup {
             return mHeightMode;
         }
 
-        int getWidth() {
+        protected int getWidth() {
             return mWidth;
         }
 
-        int getHeight() {
+        protected int getHeight() {
             return mHeight;
         }
 
         int getPaddingLeft() {
             return mFlexLayout != null ? mFlexLayout.getPaddingLeft() : 0;
         }
-
 
         int getPaddingTop() {
             return mFlexLayout != null ? mFlexLayout.getPaddingTop() : 0;
@@ -582,7 +581,7 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-        public boolean isViewShow(View view){
+        public boolean isViewShow(View view) {
             if (mViewLists.size() > 0) {
                 Iterator iterator = mViewLists.iterator();
                 while (iterator.hasNext()) {
