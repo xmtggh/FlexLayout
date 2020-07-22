@@ -622,7 +622,7 @@ public class FlexLayout extends ViewGroup {
             return 0;
         }
 
-        public void clearAllView() {
+        void clearAllView() {
             for (BaseItemView itemView : mViewLists) {
                 itemView.removeView();
                 mFlexLayout.removeView(itemView.getItemView());

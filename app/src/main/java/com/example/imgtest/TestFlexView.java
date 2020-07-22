@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class TestFlexView extends BaseItemView {
     private TextView mTvText;
     int count = 0;
-    int[] color = new int[]{Color.YELLOW,Color.BLUE,Color.BLACK,Color.GREEN};
+    int[] color = new int[]{Color.YELLOW, Color.BLUE, Color.BLACK, Color.GREEN};
+    private boolean isH = false;
 
     public TestFlexView(Context context) {
         super(context);
@@ -36,7 +38,18 @@ public class TestFlexView extends BaseItemView {
     @Override
     protected void onCreateView(View view, ViewGroup parent) {
         mTvText = view.findViewById(R.id.text);
-        mTvText.setBackgroundColor(color[1]);
+        if (isH){
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(1080,192);
+            mTvText.setBackgroundColor(color[1]);
+            mTvText.setLayoutParams(layoutParams);
+            setLandscape(false);
+        }else {
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(192,108);
+            mTvText.setBackgroundColor(color[2]);
+            mTvText.setLayoutParams(layoutParams);
+            setLandscape(true);
+
+        }
         Executors.newScheduledThreadPool(1).scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
@@ -47,7 +60,7 @@ public class TestFlexView extends BaseItemView {
                     }
                 });
             }
-        },1000*getPosition(),100, TimeUnit.MILLISECONDS);
+        }, 1000 * getPosition(), 100, TimeUnit.MILLISECONDS);
     }
 
     @Override
@@ -59,5 +72,14 @@ public class TestFlexView extends BaseItemView {
             }
         });
 
+    }
+
+    public void setW() {
+        isH = false;
+
+    }
+
+    public void setH() {
+        isH = true;
     }
 }

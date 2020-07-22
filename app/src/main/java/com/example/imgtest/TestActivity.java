@@ -31,6 +31,7 @@ public class TestActivity extends AppCompatActivity {
     private DragTouchHelper mDragTouchHelper;
     private Button mBtnReplace;
     private Button mBtnRemoveAll;
+    private boolean tag = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,33 +42,38 @@ public class TestActivity extends AppCompatActivity {
         mRemove = findViewById(R.id.remove);
         mBtnReplace = findViewById(R.id.btn_replace);
         mBtnRemoveAll = findViewById(R.id.btn_remove_all);
-        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL));
+//        mFlexLayout.setLayoutManager(new TableLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
+        mFlexLayout.setLayoutManager(new MultiScreenViewLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
 //        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
         testCommander = new FlexLayout.Commander();
-        final ImageView imageView = new ImageView(this);
-        imageView.setBackgroundColor(Color.YELLOW);
-        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_island_svg));
-        testCommander.addView(imageView);
-        testCommander.addView(new TestFlexView(TestActivity.this));
-        testCommander.addView(new TestFlexView(TestActivity.this));
-        testCommander.addView(new TestFlexView(TestActivity.this));
+//        final ImageView imageView = new ImageView(this);
+//        imageView.setBackgroundColor(Color.YELLOW);
+//        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_island_svg));
+//        testCommander.addView(imageView);
+        testCommander.addView(getH());
+        testCommander.addView(getW());
+        testCommander.addView(getH());
         mFlexLayout.setCommander(testCommander);
-        mDragTouchHelper = new DragTouchHelper();
-        mDragTouchHelper.attachToFlexlayout(mFlexLayout);
+//        mDragTouchHelper = new DragTouchHelper();
+//        mDragTouchHelper.attachToFlexlayout(mFlexLayout);
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TestFlexView testFlexView = new TestFlexView(TestActivity.this);
-                testCommander.addView(testFlexView);
+                if (tag){
+                    tag = false;
+                    testCommander.addView(getH());
+                }else {
+                    tag = true;
+                    testCommander.addView(getW());
+                }
                 testCommander.notifyUpdateAllView();
             }
         });
         mRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                testCommander.removeView(imageView);
-                testCommander.notifyUpdateAllView();
+                testCommander.removeView(0);
 
             }
         });
@@ -105,6 +111,17 @@ public class TestActivity extends AppCompatActivity {
         });
         TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
 
+    }
+
+    private TestFlexView getH(){
+        TestFlexView testFlexView = new TestFlexView(TestActivity.this);
+        testFlexView.setH();
+        return testFlexView;
+    }
+    private TestFlexView getW(){
+        TestFlexView testFlexView = new TestFlexView(TestActivity.this);
+        testFlexView.setW();
+        return testFlexView;
     }
 
     /**

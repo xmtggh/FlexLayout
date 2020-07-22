@@ -67,6 +67,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                 int column = i - row * mHorizontalNum;
                 BaseItemView itemView = getViewForPosition(i);
                 View view = itemView.getItemView();
+                //获取宽度其余空间，在子view测量时 会用parents减去此值获取当前view最大的值
                 int widthUsed = getWidth() - widthSpace;
                 int heightUsed = getHeight() - heightSpace;
                 if (i < mMaxView) {

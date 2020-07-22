@@ -30,7 +30,7 @@ public abstract class BaseItemView {
     private boolean isDelete = false;
     private boolean initFlag = false;
     private Object tag;
-
+    private boolean landscape = true;
 
     public BaseItemView(Context context) {
         this.mContext = context;
@@ -67,7 +67,7 @@ public abstract class BaseItemView {
      *
      * @return
      */
-    final View getItemView() {
+    public View getItemView() {
         return itemView;
     }
 
@@ -75,7 +75,7 @@ public abstract class BaseItemView {
      * 留坑做缓存使用
      * @return The view type of this BaseItemView.
      */
-    final int getItemViewType() {
+    public int getItemViewType() {
         return mItemViewType;
     }
 
@@ -109,6 +109,14 @@ public abstract class BaseItemView {
 
     public void setTag(Object tag) {
         this.tag = tag;
+    }
+
+    public boolean isLandscape() {
+        return landscape;
+    }
+
+    public void setLandscape(boolean landscape) {
+        this.landscape = landscape;
     }
 
     /**
