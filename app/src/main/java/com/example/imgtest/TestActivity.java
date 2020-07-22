@@ -42,8 +42,8 @@ public class TestActivity extends AppCompatActivity {
         mRemove = findViewById(R.id.remove);
         mBtnReplace = findViewById(R.id.btn_replace);
         mBtnRemoveAll = findViewById(R.id.btn_remove_all);
-//        mFlexLayout.setLayoutManager(new TableLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
-        mFlexLayout.setLayoutManager(new MultiScreenViewLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
+        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL,9));
+//        mFlexLayout.setLayoutManager(new MultiScreenViewLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
 //        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
         testCommander = new FlexLayout.Commander();
 //        final ImageView imageView = new ImageView(this);
