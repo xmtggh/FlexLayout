@@ -186,7 +186,7 @@ public class FlexLayout extends ViewGroup {
 
 
     public abstract static class AbstractLayoutManager {
-        FlexLayout mFlexLayout;
+        protected FlexLayout mFlexLayout;
         private int mWidthMode, mHeightMode;
         private int mWidth, mHeight;
 
@@ -606,6 +606,9 @@ public class FlexLayout extends ViewGroup {
         }
 
         public void notifyUpdateAllView() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                TransitionManager.endTransitions(mFlexLayout);
+            }
             mFlexLayout.requestLayout();
         }
 
