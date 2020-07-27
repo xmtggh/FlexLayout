@@ -607,10 +607,15 @@ public class FlexLayout extends ViewGroup {
         }
 
         public void notifyUpdateAllView() {
+            endTransitions();
+            mFlexLayout.requestLayout();
+        }
+
+        public void endTransitions(){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 TransitionManager.endTransitions(mFlexLayout);
             }
-            mFlexLayout.requestLayout();
+
         }
 
         public void notifyItemChange(int pos) {
