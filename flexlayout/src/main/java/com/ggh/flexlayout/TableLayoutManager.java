@@ -1,7 +1,6 @@
-package com.cvte.flexlayout;
+package com.ggh.flexlayout;
 
 import android.transition.AutoTransition;
-import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;

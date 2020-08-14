@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cvte.flexlayout.BaseItemView;
+import com.ggh.flexlayout.BaseItemView;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;

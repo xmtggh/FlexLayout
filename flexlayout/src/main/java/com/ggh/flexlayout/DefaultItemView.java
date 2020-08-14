@@ -1,4 +1,4 @@
-package com.cvte.flexlayout;
+package com.ggh.flexlayout;
 
 import android.content.Context;
 import android.view.View;

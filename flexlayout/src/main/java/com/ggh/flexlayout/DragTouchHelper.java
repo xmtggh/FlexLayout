@@ -1,4 +1,4 @@
-package com.cvte.flexlayout;
+package com.ggh.flexlayout;
 
 import android.util.Log;
 import android.view.MotionEvent;
