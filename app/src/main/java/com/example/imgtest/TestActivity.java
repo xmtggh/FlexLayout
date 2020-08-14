@@ -1,5 +1,8 @@
 package com.example.imgtest;
 
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.FileUtils;
@@ -42,31 +45,26 @@ public class TestActivity extends AppCompatActivity {
         mRemove = findViewById(R.id.remove);
         mBtnReplace = findViewById(R.id.btn_replace);
         mBtnRemoveAll = findViewById(R.id.btn_remove_all);
-        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL,9));
+        mFlexLayout.setLayoutManager(new TableLayoutManager(TableLayoutManager.HORIZONTAL, 9));
 //        mFlexLayout.setLayoutManager(new MultiScreenViewLayoutManager(MultiScreenViewLayoutManager.HORIZONTAL,9));
 //        mFlexLayout.setLayoutManager(new ArbitrarilyLayoutManager());
         testCommander = new FlexLayout.Commander();
-//        final ImageView imageView = new ImageView(this);
-//        imageView.setBackgroundColor(Color.YELLOW);
-//        imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_island_svg));
-//        testCommander.addView(imageView);
-        testCommander.addView(getH());
         testCommander.addView(getW());
-        testCommander.addView(getH());
         mFlexLayout.setCommander(testCommander);
+//        setAnim();
 //        mDragTouchHelper = new DragTouchHelper();
 //        mDragTouchHelper.attachToFlexlayout(mFlexLayout);
 
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (tag){
-                    tag = false;
-                    testCommander.addView(getH());
-                }else {
-                    tag = true;
-                    testCommander.addView(getW());
-                }
+//                if (tag){
+//                    tag = false;
+//                    testCommander.addView(getH());
+//                }else {
+//                    tag = true;
+                testCommander.addView(getW());
+//                }
                 testCommander.notifyUpdateAllView();
             }
         });
@@ -89,7 +87,7 @@ public class TestActivity extends AppCompatActivity {
         mBtnRemoveAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("apk","apk version name" + BuildConfig.VERSION_NAME);
+                Log.d("apk", "apk version name" + BuildConfig.VERSION_NAME);
                 String filePath = getDeletePath();
                 List<String> filePaths = getFilesAllName(filePath);
                 String apkPath = "";
@@ -98,7 +96,6 @@ public class TestActivity extends AppCompatActivity {
                         apkPath = path;
                     }
                 }
-//                testCommander.removeAllView();
             }
         });
 
@@ -109,16 +106,50 @@ public class TestActivity extends AppCompatActivity {
                 testCommander.replaceView(testFlexView);
             }
         });
-        TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
 
     }
 
-    private TestFlexView getH(){
+    public void setAnim(){
+        LayoutTransition mLayoutTransition = new LayoutTransition();
+
+        //设置每个动画持续的时间
+        mLayoutTransition.setStagger(LayoutTransition.CHANGE_APPEARING,50);
+        mLayoutTransition.setStagger(LayoutTransition.APPEARING,50);
+
+        PropertyValuesHolder appearingScaleX = PropertyValuesHolder.ofFloat("scaleX", 0.5f, 1.0f);
+        PropertyValuesHolder appearingScaleY = PropertyValuesHolder.ofFloat("scaleY", 0.5f, 1.0f);
+        PropertyValuesHolder appearingAlpha = PropertyValuesHolder.ofFloat("alpha", 0f, 1f);
+        ObjectAnimator mAnimatorAppearing = ObjectAnimator.ofPropertyValuesHolder(this, appearingAlpha, appearingScaleX, appearingScaleY);
+        //为LayoutTransition设置动画及动画类型
+        mLayoutTransition.setAnimator(LayoutTransition.APPEARING,mAnimatorAppearing);
+
+
+//        PropertyValuesHolder disappearingAlpha = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+//        PropertyValuesHolder disappearingRotationY = PropertyValuesHolder.ofFloat("rotationY", 0.0f, 90.0f);
+//        ObjectAnimator mAnimatorDisappearing = ObjectAnimator.ofPropertyValuesHolder(this, disappearingAlpha, disappearingRotationY);
+//        //为LayoutTransition设置动画及动画类型
+//        mLayoutTransition.setAnimator(LayoutTransition.DISAPPEARING,mAnimatorDisappearing);
+//
+//
+//        ObjectAnimator mAnimatorChangeDisappearing = ObjectAnimator.ofFloat(null, "alpha", 1f, 0f);
+//        //为LayoutTransition设置动画及动画类型
+//        mLayoutTransition.setAnimator(LayoutTransition.CHANGE_DISAPPEARING,mAnimatorChangeDisappearing);
+
+        ObjectAnimator mAnimatorChangeAppearing = ObjectAnimator.ofFloat(null, "alpha", 1f, 0f);
+        //为LayoutTransition设置动画及动画类型
+        mLayoutTransition.setAnimator(LayoutTransition.CHANGE_APPEARING,mAnimatorChangeAppearing);
+
+        //为mImageViewGroup设置mLayoutTransition对象
+        mFlexLayout.setLayoutTransition(mLayoutTransition);
+    }
+
+    private TestFlexView getH() {
         TestFlexView testFlexView = new TestFlexView(TestActivity.this);
         testFlexView.setH();
         return testFlexView;
     }
-    private TestFlexView getW(){
+
+    private TestFlexView getW() {
         TestFlexView testFlexView = new TestFlexView(TestActivity.this);
         testFlexView.setW();
         return testFlexView;
@@ -126,15 +157,19 @@ public class TestActivity extends AppCompatActivity {
 
     /**
      * 获取所有文件名称
+     *
      * @param path
      * @return
      */
     public static List<String> getFilesAllName(String path) {
-        File file=new File(path);
-        File[] files=file.listFiles();
-        if (files == null){Log.e("error","空目录");return null;}
+        File file = new File(path);
+        File[] files = file.listFiles();
+        if (files == null) {
+            Log.e("error", "空目录");
+            return null;
+        }
         List<String> s = new ArrayList<>();
-        for(int i =0;i<files.length;i++){
+        for (int i = 0; i < files.length; i++) {
             s.add(files[i].getAbsolutePath());
         }
         return s;

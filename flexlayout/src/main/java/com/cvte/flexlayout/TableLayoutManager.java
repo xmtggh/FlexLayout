@@ -1,5 +1,8 @@
 package com.cvte.flexlayout;
 
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -118,6 +121,11 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
 
     @Override
     protected FlexLayout.LayoutParams generateDefaultLayoutParams() {
-        return new FlexLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        return new FlexLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+    }
+
+    @Override
+    protected TransitionSet getLayoutTransition() {
+        return new AutoTransition();
     }
 }

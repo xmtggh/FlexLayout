@@ -1,5 +1,7 @@
 package com.cvte.flexlayout;
 
+import android.transition.AutoTransition;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,8 @@ public class ArbitrarilyLayoutManager extends FlexLayout.AbstractLayoutManager {
     protected FlexLayout.LayoutParams generateDefaultLayoutParams() {
         return new FlexLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
+
+
 
     @Override
     protected void onLayoutChildren() {
@@ -43,6 +47,11 @@ public class ArbitrarilyLayoutManager extends FlexLayout.AbstractLayoutManager {
                 addView(itemView);
             }
         }
+    }
+
+    @Override
+    protected TransitionSet getLayoutTransition() {
+        return new AutoTransition();
     }
 
 }

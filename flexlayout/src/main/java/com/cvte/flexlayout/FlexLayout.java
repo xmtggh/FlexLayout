@@ -2,8 +2,8 @@ package com.cvte.flexlayout;
 
 import android.content.Context;
 import android.os.Build;
-import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -187,7 +187,7 @@ public class FlexLayout extends ViewGroup {
 
 
     public abstract static class AbstractLayoutManager {
-        protected FlexLayout mFlexLayout;
+        private FlexLayout mFlexLayout;
         private int mWidthMode, mHeightMode;
         private int mWidth, mHeight;
 
@@ -237,8 +237,10 @@ public class FlexLayout extends ViewGroup {
                 lvParams = (LayoutParams) mFlexLayout.generateLayoutParams(params);
                 internalView.setLayoutParams(lvParams);
             }
-            TransitionManager.beginDelayedTransition(mFlexLayout, new AutoTransition());
-
+            TransitionSet transitionSet = getLayoutTransition();
+            if (transitionSet != null) {
+                TransitionManager.beginDelayedTransition(mFlexLayout, transitionSet);
+            }
             return itemView;
         }
 
@@ -265,6 +267,11 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
+        protected void clearAnimation(){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                TransitionManager.endTransitions(mFlexLayout);
+            }
+        }
         /**
          * 测量子view
          *
@@ -392,6 +399,9 @@ public class FlexLayout extends ViewGroup {
          */
         protected abstract LayoutParams generateDefaultLayoutParams();
 
+
+        protected abstract TransitionSet getLayoutTransition();
+
         /**
          * 选择一个当前合适的size
          *
@@ -401,14 +411,14 @@ public class FlexLayout extends ViewGroup {
          * @return
          */
         private static int chooseSize(int spec, int desired, int min) {
-            final int mode = View.MeasureSpec.getMode(spec);
-            final int size = View.MeasureSpec.getSize(spec);
+            final int mode = MeasureSpec.getMode(spec);
+            final int size = MeasureSpec.getSize(spec);
             switch (mode) {
-                case View.MeasureSpec.EXACTLY:
+                case MeasureSpec.EXACTLY:
                     return size;
-                case View.MeasureSpec.AT_MOST:
+                case MeasureSpec.AT_MOST:
                     return Math.min(size, Math.max(desired, min));
-                case View.MeasureSpec.UNSPECIFIED:
+                case MeasureSpec.UNSPECIFIED:
                 default:
                     return Math.max(desired, min);
             }
@@ -457,7 +467,7 @@ public class FlexLayout extends ViewGroup {
 
     }
 
-    public static class LayoutParams extends android.view.ViewGroup.MarginLayoutParams {
+    public static class LayoutParams extends MarginLayoutParams {
 
         public LayoutParams(Context c, AttributeSet attrs) {
             super(c, attrs);
@@ -607,15 +617,7 @@ public class FlexLayout extends ViewGroup {
         }
 
         public void notifyUpdateAllView() {
-            endTransitions();
             mFlexLayout.requestLayout();
-        }
-
-        public void endTransitions(){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                TransitionManager.endTransitions(mFlexLayout);
-            }
-
         }
 
         public void notifyItemChange(int pos) {
