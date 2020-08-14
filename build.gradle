@@ -18,16 +18,7 @@ buildscript {
 allprojects {
     repositories {
         maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }// 阿里云maven镜像
-        maven { url 'http://mvn.gz.cvte.cn/nexus/content/repositories/releases/' }
-        maven { url 'http://mvn.gz.cvte.cn/nexus/content/repositories/snapshots/' }
-        maven { url 'http://artifactory.gz.cvte.cn:80/artifactory/mvn-snapshots' }
-        maven { url 'http://artifactory.gz.cvte.cn:80/artifactory/mvn-releases' }
-        maven { url "http://mvn.gz.cvte.cn/nexus/content/repositories/android_snapshots/" }
-        maven { url "http://mvn.gz.cvte.cn/nexus/content/repositories/android_releases/" }
         maven { url 'https://jitpack.io' }
-        maven { url 'https://maven.google.com' }
-        mavenLocal()  // 注意：编译服务器存在鬼问题，这行一定要在 mvn.gz.cvte.cn 之后
-        mavenCentral()
         google()
         jcenter()
         
