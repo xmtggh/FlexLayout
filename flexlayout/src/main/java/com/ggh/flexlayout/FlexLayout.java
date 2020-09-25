@@ -267,6 +267,11 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
+        protected void removeFirst(){
+            mFlexLayout.removeViewAt(0);
+            mFlexLayout.getCommander().removeView(0);
+        }
+
         protected void clearAnimation(){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 TransitionManager.endTransitions(mFlexLayout);
