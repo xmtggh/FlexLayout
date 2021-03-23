@@ -65,7 +65,6 @@ public class FlexLayout extends ViewGroup {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d(TAG, "进入ViewGroup测量过程");
         if (mLayoutManager == null) {
             defaultOnMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
@@ -77,11 +76,9 @@ public class FlexLayout extends ViewGroup {
         int heightModel = MeasureSpec.getMode(heightMeasureSpec);
         boolean measureSpecModelIsExactly = widthModel == MeasureSpec.EXACTLY && heightModel == MeasureSpec.EXACTLY;
         if (measureSpecModelIsExactly) {
-            Log.d(TAG, "父布局已确认");
 
             return;
         } else {
-            Log.d(TAG, "父布局未确认，执行子view的测量和布局");
             mLayoutManager.onLayoutChildren();
             mLayoutManager.setMeasureSpecs(widthMeasureSpec, heightMeasureSpec);
             mLayoutManager.setMeasuredDimensionFromChildren(widthMeasureSpec, heightMeasureSpec);
@@ -105,7 +102,6 @@ public class FlexLayout extends ViewGroup {
         final int height = AbstractLayoutManager.chooseSize(heightSpec,
                 getPaddingTop() + getPaddingBottom(),
                 ViewCompat.getMinimumHeight(this));
-        Log.d(TAG, "默认测量方式");
         setMeasuredDimension(width, height);
     }
 
@@ -113,7 +109,6 @@ public class FlexLayout extends ViewGroup {
     @Override
     protected void onLayout(boolean b, int i, int i1, int i2, int i3) {
         if (mLayoutManager != null) {
-            Log.d(TAG, "执行Layout");
             mLayoutManager.setExactMeasureSpecsFrom(this);
             mLayoutManager.onLayoutChildren();
         }
@@ -160,6 +155,11 @@ public class FlexLayout extends ViewGroup {
             mLayoutManager.setFlexLayout(this);
         }
         requestLayout();
+    }
+
+    @Override
+    public void requestLayout() {
+        super.requestLayout();
     }
 
     /**
@@ -268,7 +268,6 @@ public class FlexLayout extends ViewGroup {
         }
 
         protected void removeFirst(){
-            mFlexLayout.removeViewAt(0);
             mFlexLayout.getCommander().removeView(0);
         }
 
