@@ -31,6 +31,8 @@ public abstract class BaseItemView {
     private boolean initFlag = false;
     private Object tag;
     private boolean landscape = true;
+    private int mViewWidth;
+    private int mViewHeight;
 
     public BaseItemView(Context context) {
         this.mContext = context;
@@ -117,6 +119,19 @@ public abstract class BaseItemView {
 
     public void setLandscape(boolean landscape) {
         this.landscape = landscape;
+    }
+
+    public void setViewSize(int width,int height){
+        this.mViewWidth = width;
+        this.mViewHeight = height;
+    }
+
+    public int getViewWidth() {
+        return mViewWidth;
+    }
+
+    public int getViewHeight() {
+        return mViewHeight;
     }
 
     /**

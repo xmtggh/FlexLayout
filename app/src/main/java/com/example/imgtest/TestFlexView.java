@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -59,10 +60,10 @@ public class TestFlexView extends BaseItemView {
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTvText.getLayoutParams();
-                        params.width = 10 + count++;
-                        params.height = 20 + count++;
-                        mTvText.setLayoutParams(params);
+//                        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mTvText.getLayoutParams();
+//                        params.width = 10 + count++;
+//                        params.height = 20 + count++;
+                        mTvText.setText("count ++");
                     }
                 });
             }
@@ -87,5 +88,11 @@ public class TestFlexView extends BaseItemView {
 
     public void setH() {
         isH = true;
+    }
+
+    @Override
+    public void setViewSize(int width, int height) {
+        super.setViewSize(width, height);
+        Log.d("TestFlexView", "width == " + width + "height == " + height);
     }
 }

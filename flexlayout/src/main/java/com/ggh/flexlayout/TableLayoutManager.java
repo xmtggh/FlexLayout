@@ -77,7 +77,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                     int widthMesured = getDecoratedMeasuredWidth(view);
                     int heightMesured = getDecoratedMeasuredHeight(view);
                     Log.d(TAG, "子view测量大小" + widthSpace + "*" + heightSpace);
-                    layoutDecoratedWithMargins(view, column * widthMesured, row * heightMesured, widthMesured + column * widthMesured, row * heightMesured + heightMesured);
+                    layoutDecoratedWithMargins(itemView, column * widthMesured, row * heightMesured, widthMesured + column * widthMesured, row * heightMesured + heightMesured);
                     addView(itemView);
                 }
             }

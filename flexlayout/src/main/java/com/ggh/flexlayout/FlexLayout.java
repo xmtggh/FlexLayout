@@ -267,15 +267,16 @@ public class FlexLayout extends ViewGroup {
             }
         }
 
-        protected void removeFirst(){
+        protected void removeFirst() {
             mFlexLayout.getCommander().removeView(0);
         }
 
-        protected void clearAnimation(){
+        protected void clearAnimation() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 TransitionManager.endTransitions(mFlexLayout);
             }
         }
+
         /**
          * 测量子view
          *
@@ -350,10 +351,11 @@ public class FlexLayout extends ViewGroup {
             return child.getMeasuredHeight() + layoutParams.topMargin + layoutParams.bottomMargin;
         }
 
-        protected void layoutDecoratedWithMargins(@NonNull View child, int left, int top, int right,
+        protected void layoutDecoratedWithMargins(@NonNull BaseItemView child, int left, int top, int right,
                                                   int bottom) {
-            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            child.layout(left + lp.leftMargin,
+            child.setViewSize((right - left), (bottom - top));
+            final LayoutParams lp = (LayoutParams) child.getItemView().getLayoutParams();
+            child.getItemView().layout(left + lp.leftMargin,
                     top + lp.topMargin,
                     right - lp.rightMargin,
                     bottom - lp.bottomMargin);

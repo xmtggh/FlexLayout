@@ -40,7 +40,7 @@ public class ArbitrarilyLayoutManager extends FlexLayout.AbstractLayoutManager {
                 measureChildWithMargins(view, 0, 0);
                 int widthSpace = getWidth() - getDecoratedMeasuredWidth(view);
                 int heightSpace = getHeight() - getDecoratedMeasuredHeight(view);
-                layoutDecoratedWithMargins(view, widthSpace - position * 50, 0,
+                layoutDecoratedWithMargins(itemView, widthSpace - position * 50, 0,
                         widthSpace + getDecoratedMeasuredWidth(view) - position * 50,
                         getDecoratedMeasuredHeight(view));
                 addView(itemView);

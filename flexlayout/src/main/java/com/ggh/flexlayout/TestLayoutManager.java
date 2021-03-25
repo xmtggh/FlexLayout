@@ -34,7 +34,7 @@ public class TestLayoutManager extends FlexLayout.AbstractLayoutManager {
                 int widthSpace = getDecoratedMeasuredWidth(view);
                 int heightSpace = getDecoratedMeasuredHeight(view);
                 Log.d(TAG,"子view测量大小"+ widthSpace+"*"+heightSpace);
-                layoutDecoratedWithMargins(view,0, heightAdds, widthSpace, heightAdds + heightSpace);
+                layoutDecoratedWithMargins(itemView,0, heightAdds, widthSpace, heightAdds + heightSpace);
                 heightAdds = heightSpace + heightAdds;
                 addView(itemView);
             }
