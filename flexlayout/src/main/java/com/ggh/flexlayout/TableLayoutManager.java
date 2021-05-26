@@ -42,7 +42,7 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
 
     private void initLayout(int direction, int maxView) {
         if (direction != 0 && direction != 1) {
-            throw new RuntimeException("初始化方向失败，请填写正确的值");
+            throw new RuntimeException("init error");
         }
         this.mCurrentModel = direction;
         this.mMaxView = maxView;
@@ -53,12 +53,9 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
     protected void onLayoutChildren() {
         mHorizontalNum = 0;
         mVerticalNum = 0;
-        Log.d(TAG, "子view开始布局");
         int childSize = getItemCount();
         int tableSize =Math.min(getItemCount(),mMaxView);
-        Log.d(TAG, "子view数量" + childSize);
         calculationAllItemNum(tableSize);
-        Log.d(TAG, "计算的长为" + mHorizontalNum + "计算的宽为" + mVerticalNum);
         if (childSize > 0) {
             int widthSpace = getWidth() / mHorizontalNum;
             int heightSpace = getHeight() / mVerticalNum;
@@ -76,7 +73,6 @@ public class TableLayoutManager extends FlexLayout.AbstractLayoutManager {
                     measureChildWithMargins(view, widthUsed, heightUsed);
                     int widthMesured = getDecoratedMeasuredWidth(view);
                     int heightMesured = getDecoratedMeasuredHeight(view);
-                    Log.d(TAG, "子view测量大小" + widthSpace + "*" + heightSpace);
                     layoutDecoratedWithMargins(itemView, column * widthMesured, row * heightMesured, widthMesured + column * widthMesured, row * heightMesured + heightMesured);
                     addView(itemView);
                 }

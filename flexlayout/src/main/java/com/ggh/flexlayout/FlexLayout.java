@@ -143,7 +143,7 @@ public class FlexLayout extends ViewGroup {
         if (layoutManager == mLayoutManager) {
             return;
         }
-        Log.d(TAG, "设置LayoutManager");
+        Log.d(TAG, "setLayoutManager");
         //若原来是有layoutManager的，先清理现场
         if (mLayoutManager != null) {
             mLayoutManager.setFlexLayout(null);
@@ -172,7 +172,7 @@ public class FlexLayout extends ViewGroup {
             return;
         }
         //原先是有管理者，先清场
-        Log.d(TAG, "设置Commander");
+        Log.d(TAG, "setCommander");
         if (mCommander != null) {
             mCommander.clearAllView();
             mCommander = null;
@@ -506,7 +506,7 @@ public class FlexLayout extends ViewGroup {
 
         public Commander() {
             mViewLists = new ArrayList<>();
-            Log.d(TAG, "初始化Commander");
+            Log.d(TAG, "init Commander");
         }
 
         BaseItemView getViewForPosition(ViewGroup parent, int position) {
@@ -525,7 +525,7 @@ public class FlexLayout extends ViewGroup {
             }
             mFlexLayout = flexLayout;
             mContext = context;
-            Log.d(TAG, "Commander 绑定FlexLayout");
+            Log.d(TAG, "Commander bind FlexLayout");
         }
 
         private void addLists(List<BaseItemView> lists) {
