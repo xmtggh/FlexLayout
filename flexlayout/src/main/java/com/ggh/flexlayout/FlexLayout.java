@@ -604,8 +604,6 @@ public class FlexLayout extends ViewGroup {
                 while (iterator.hasNext()) {
                     BaseItemView itemView = (BaseItemView) iterator.next();
                     if (itemView.getItemView() == view) {
-                        mViewLists.remove(itemView);
-                        mFlexLayout.removeView(itemView.getItemView());
                         return true;
                     }
                 }
