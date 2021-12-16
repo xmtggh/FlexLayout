@@ -637,6 +637,19 @@ public class FlexLayout extends ViewGroup {
             return 0;
         }
 
+        public List<BaseItemView> getViewList() {
+            return mViewLists;
+        }
+
+        public BaseItemView getView(int index) {
+            if (mViewLists != null && mViewLists.size() > 0 && index < mViewLists.size()) {
+                return mViewLists.get(index);
+
+            }
+            return null;
+
+        }
+
         void clearAllView() {
             for (BaseItemView itemView : mViewLists) {
                 itemView.removeView();
@@ -648,6 +661,7 @@ public class FlexLayout extends ViewGroup {
         int getItemCount() {
             return mViewLists.size();
         }
+
 
     }
 }
