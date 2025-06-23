@@ -257,7 +257,9 @@ public class FlexLayout extends ViewGroup {
 
 
         protected void removeAllView() {
-            mFlexLayout.removeAllViews();
+            if (mFlexLayout!=null){
+                mFlexLayout.removeAllViews();
+            }
         }
 
         protected void addView(BaseItemView view) {
@@ -268,7 +270,9 @@ public class FlexLayout extends ViewGroup {
         }
 
         protected void removeFirst() {
-            mFlexLayout.getCommander().removeView(0);
+            if (mFlexLayout!=null){
+                mFlexLayout.getCommander().removeView(0);
+            }
         }
 
         protected void clearAnimation() {
@@ -336,7 +340,9 @@ public class FlexLayout extends ViewGroup {
          * @param heightSpec
          */
         private void onMeasure(int widthSpec, int heightSpec) {
-            mFlexLayout.defaultOnMeasure(widthSpec, heightSpec);
+            if (mFlexLayout == null) {
+                mFlexLayout.defaultOnMeasure(widthSpec, heightSpec);
+            }
         }
 
 
@@ -375,6 +381,9 @@ public class FlexLayout extends ViewGroup {
          * @param heightSpec
          */
         void setMeasuredDimensionFromChildren(int widthSpec, int heightSpec) {
+            if (mFlexLayout == null) {
+                return;
+            }
             final int count = mFlexLayout.getChildCount();
             if (count == 0) {
                 mFlexLayout.defaultOnMeasure(widthSpec, heightSpec);
@@ -553,7 +562,9 @@ public class FlexLayout extends ViewGroup {
         public void removeView(BaseItemView baseItemView) {
             if (baseItemView != null) {
                 mViewLists.remove(baseItemView);
-                mFlexLayout.removeView(baseItemView.getItemView());
+                if (mFlexLayout!= null){
+                    mFlexLayout.removeView(baseItemView.getItemView());
+                }
             }
         }
 
@@ -561,7 +572,9 @@ public class FlexLayout extends ViewGroup {
             if (index >= 0 && index < mViewLists.size()) {
                 BaseItemView itemView = mViewLists.get(index);
                 itemView.removeView();
-                mFlexLayout.removeView(itemView.getItemView());
+                if (mFlexLayout!=null){
+                    mFlexLayout.removeView(itemView.getItemView());
+                }
                 mViewLists.remove(itemView);
             }
         }
@@ -569,7 +582,9 @@ public class FlexLayout extends ViewGroup {
         public void replaceView(View view) {
             if (mViewLists.size() > 0) {
                 mViewLists.clear();
-                mFlexLayout.removeAllViews();
+                if (mFlexLayout != null){
+                    mFlexLayout.removeAllViews();
+                }
             }
             addView(view);
         }
@@ -577,19 +592,24 @@ public class FlexLayout extends ViewGroup {
         public void replaceView(BaseItemView view) {
             if (mViewLists.size() > 0) {
                 mViewLists.clear();
-                mFlexLayout.removeAllViews();
+                if (mFlexLayout != null) {
+                    mFlexLayout.removeAllViews();
+                }
             }
             addView(view);
         }
 
         public void removeView(View view) {
+
             if (mViewLists.size() > 0) {
                 Iterator iterator = mViewLists.iterator();
                 while (iterator.hasNext()) {
                     BaseItemView itemView = (BaseItemView) iterator.next();
                     if (itemView.getItemView() == view) {
                         mViewLists.remove(itemView);
-                        mFlexLayout.removeView(itemView.getItemView());
+                        if (mFlexLayout != null) {
+                            mFlexLayout.removeView(itemView.getItemView());
+                        }
                         break;
                     }
                 }
@@ -621,7 +641,9 @@ public class FlexLayout extends ViewGroup {
         }
 
         public void notifyUpdateAllView() {
-            mFlexLayout.requestLayout();
+            if (mFlexLayout!=null){
+                mFlexLayout.requestLayout();
+            }
         }
 
         public void notifyItemChange(int pos) {
@@ -653,7 +675,9 @@ public class FlexLayout extends ViewGroup {
         void clearAllView() {
             for (BaseItemView itemView : mViewLists) {
                 itemView.removeView();
-                mFlexLayout.removeView(itemView.getItemView());
+                if (mFlexLayout!=null){
+                    mFlexLayout.removeView(itemView.getItemView());
+                }
             }
             mViewLists.clear();
         }
